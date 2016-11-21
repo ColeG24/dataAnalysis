@@ -32,7 +32,7 @@ class Analysis:
             if (operation == 'var'):
                 return s.var()[self.date]
 
-        def peaked(self, distBtwnMinAndMax, dataPieces, minWindow=30, maxWindow=20, peakWidthMax=20, peakHeightMin=5):
+        def peaked(self, distBtwnMinAndMax, dataPieces, minWindow=30, maxWindow=20, peakWidthMax=20, MinToMaxRatio=.9):
             max = self.series.resample("1D").fillna('ffill').rolling(window=maxWindow).max()[self.date]
             min = self.series.resample("1D").fillna('ffill').rolling(window=minWindow).min()[self.date]
 
@@ -43,8 +43,8 @@ class Analysis:
                     break
 
             # Peak is tall enough
-            diff = max - min
-            if diff < peakHeightMin:
+            diff = min / max
+            if diff > MinToMaxRatio:
                 return False
 
             # If is min
@@ -54,7 +54,7 @@ class Analysis:
                 for i in range(dist, index):
                     if dataPieces[i].open == max:  # If max was within distBtwnMinAndMax
                         a = True
-                if a == False:
+                if not a:
                     return False
             else:
                 return False
@@ -316,22 +316,74 @@ class Analysis:
         # Sell
         elif goodSellLongTerm or goodSellShortTerm:
             # A number that correlates with how strong the sell will be
-            num = (db.getRollingData(15) / db.getRollingData(50) - 1) * 100
+            num = -1*(db.getRollingData(15) / db.getRollingData(50) - 1) * 100
         return num
 
-    # Stripped down run
+    # Using this to get best markers for certain things
     def bare_run (self):
-        pass
+        # Plot actual open data
+        s = p.Series(self.open, self.dates)
+        s.cumsum()
+        s.plot(style ='k', markersize=5)
+
+        for dayIndex in range(len(self.dataPoints)):
+            db = self.dataPoints[dayIndex]
+            num = self.movingAvgIndex(db)
+            if num > 0:
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='r', markersize=num)
+            elif num < 0:
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='b', markersize=num*-1)
+            if db.peaked(150, self.dataPoints, minWindow=40, maxWindow=100):
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=4)
+            if db.peaked(250, self.dataPoints, minWindow=40, maxWindow=50):
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='y', markersize=4)
+            if db.peaked(30, self.dataPoints, minWindow=10, maxWindow=20, MinToMaxRatio=.94):
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='r', markersize=4)
+            # if db.peaked(80, self.dataPoints):
+            #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=8)
+
+        plt.show()
+
 
     def csv_indices(self):
-        # Take multiple indices and add them to a csv. This csv can then be used by neural network
-        pass
+        columns = ['open', 'num', 'peaked1', 'peaked2', 'peaked3']
+        index = self.dates
+        df = p.DataFrame(index=index, columns=columns)
+        # TODO add DOW && S&P index
+        # TODO add  5, 10, 20, 40, 80, 160  days lateractual db.open
 
-    def peakedRecently(self, db, dataPieces, index, peakLookBack=3):
+
+        for dayIndex in range(len(self.dataPoints)):
+            db = self.dataPoints[dayIndex]
+            df.at[db.date, 'open'] = db.open
+
+            num = self.movingAvgIndex(db)
+            if num > 0:
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='r', markersize=num)
+            elif num < 0:
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='b', markersize=num*-1)
+
+            df.at[db.date, 'num'] = num
+            if db.peaked(150, self.dataPoints, minWindow=40, maxWindow=100):
+                df.at[db.date, 'peaked1'] = 1
+            else:
+                df.at[db.date, 'peaked1'] = 0
+            if db.peaked(250, self.dataPoints, minWindow=40, maxWindow=50):
+                df.at[db.date, 'peaked2'] = 1
+            else:
+                df.at[db.date, 'peaked2'] = 0
+            if db.peaked(30, self.dataPoints, minWindow=10, maxWindow=20, MinToMaxRatio=.94):
+                df.at[db.date, 'peaked3'] = 1
+            else:
+                df.at[db.date, 'peaked3'] = 0
+            # if db.peaked(80, self.dataPoints):
+            #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=8)
+        df.to_csv("C:\\Users\\cole\\Desktop\\Brks\\test.csv")
+    def peakedRecently(self, db, index, peakLookBack=3):
 
         if index >= peakLookBack and db.getRollingData(2, 'mean') > db.getRollingData(5, 'mean'):
             for indexOfRecentDays in range(0, peakLookBack):
-                if dataPieces[index - indexOfRecentDays].peaked(80, dataPieces, minWindow=20, maxWindow=40):
+                if self.dataPoints[index - indexOfRecentDays].peaked(80, self.dataPoints, minWindow=20, maxWindow=40):
                     return True
         return False
     def isfloat(self, value):
@@ -345,4 +397,5 @@ class Analysis:
 
 if __name__ == "__main__":
     A = Analysis("MSI")
-    A.run()
+    # A.bare_run()
+    A.csv_indices()
