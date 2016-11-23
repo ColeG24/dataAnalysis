@@ -429,19 +429,20 @@ class Analysis:
             return False
 
     def calculateSlope(self, numDays, series, date):
-        xs = np.zeros(numDays)
-        ys = np.zeros(numDays)
+        xs = []
+        ys = []
         for i in range(0, numDays):
             newDate = date - datetime.timedelta(days=i)
-            ys[i] = series[newDate]
-            xs[i] = i
+            ys.append(series[newDate])
+            xs.append(i)
         # dy = (np.roll(ys, -1, axis=1) - ys)[:,:-1]
         # dx = (np.roll(xs, -1, axis=0) - xs)[:-1]
+        ys.reverse()
         from scipy.stats import linregress
         return linregress(xs, ys)[0]
 
 
 if __name__ == "__main__":
-    A = Analysis("MSI", start=datetime.datetime(2012, 1, 1))
+    A = Analysis("CDE", start=datetime.datetime(2012, 1, 1))
     # A.bare_run()
     A.csv_indices()

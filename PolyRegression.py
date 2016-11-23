@@ -1,13 +1,20 @@
 import matplotlib as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import Pipeline
+import warnings
+
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore",category=DeprecationWarning)
+    from sklearn.linear_model import LinearRegression
+    from sklearn.preprocessing import PolynomialFeatures
+    from sklearn.pipeline import Pipeline
 import  pandas as p
 
 degrees = [2, 3, 4, 5]
-data = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\MSITrain.csv")
-cvData = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\MSI_CV.csv")
+# data = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\MSITrain.csv")
+# cvData = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\MSI_CV.csv")
+data = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\CDETrain.csv")
+cvData = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\CDE_CV.csv")
 
+# TODO Make mathod that takes in csv, and do this automatically
 X1 = [x for x in data['x1'].values]
 X2 = [x for x in data['x2'].values]
 X3 = [x for x in data['x3'].values]
@@ -40,21 +47,21 @@ cvY2 = [x for x in cvData['y2'].values]
 
 xVectors = []
 for i in range(0, len(X1)):
-    xVectors.append([X1,X2,X3,X4,X5,X6,X7,X8,X9,X10,X11])
+    xVectors.append([X1[i],X2[i],X3[i],X4[i],X5[i],X6[i],X7[i],X8[i],X9[i],X10[i],X11[i]])
 
 yVectors = []
 for i in range(0, len(X1)):
-    yVectors.append([Y1,Y2])
+    yVectors.append([Y1[i],Y2[i]])
 
 cv_xVectors = []
 for i in range(0, len(cvX1)):
-    cv_xVectors.append([cvX1,cvX2,cvX3,cvX4,cvX5,cvX6,cvX7,cvX8,cvX9,cvX10,cvX11])
+    cv_xVectors.append([cvX1[i],cvX2[i],cvX3[i],cvX4[i],cvX5[i],cvX6[i],cvX7[i],cvX8[i],cvX9[i],cvX10[i],cvX11[i]])
 
 cv_yVectors = []
-for i in range(0, len(X1)):
-    cv_yVectors.append([cvY1,cvY2])
+for i in range(0, len(cvX1)):
+    cv_yVectors.append([cvY1[i],cvY2[i]])
 
-degrees = [2]
+degrees = [1,2,3]
 for i in range(len(degrees)):
 
 
@@ -68,10 +75,24 @@ for i in range(len(degrees)):
     print("------------------------------------------------")
     print(degrees[i])
     avgE = 0.0
-    length = len()
+    length = len(cv_yVectors)
+    # bought = 0
+    # sold = 0
     for x in range(0, length):
-        e = (pipeline.predict(cv_xVectors) - cv_yVectors) ** 2
+        current = cv_xVectors[x][0]
+        guess = pipeline.predict(cv_xVectors[x])
+        actual = cv_yVectors[x]
+        # if(guess[0][0] > current * 1.01):
+        #     bought += actual[0] - current
+        # if(guess[0][0] < current *.99):
+        #     sold += current - actual[0]
+        e = (guess - actual) ** 2
         avgE += e
     avgE /= length
     print(avgE)
+    # print(bought)
+    # print(sold)
+    print(pipeline.predict([8.87,15.7334716101,1,1,0,-0.3208,-0.0628909090909,0.00373984962406,-0.0458340525328,-0.0140111404126,0.0499829469047]))
+
+
     print("------------------------------------------------")
