@@ -332,6 +332,11 @@ class Analysis:
             num = -1*(db.getRollingDataForDay(15) / db.getRollingDataForDay(50) - 1) * 100
         return num
 
+    def diff_from_moving_avg(self, db, period):
+        movAvg = db.getRollingDataForDay(period)
+        return db.open/movAvg
+
+
     # Using this to get best markers for certain things
     def bare_run (self):
 
@@ -363,16 +368,19 @@ class Analysis:
 
 
     def csv_indices(self):
-        columns = ['open', 'num', 'peaked1', 'peaked2', 'peaked3', 'slope5', 'slope10', 'slope20', 'slope40', 'slope80','slope160','5D','50D']
+        columns = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10','x11','x12','x13', 'x14','x15', 'y1','y2','y3']
         index = self.dates
         df = p.DataFrame(index=index, columns=columns)
         # TODO add DOW && S&P index
-        # TODO add  5, 10, 20, 40, 80, 160  days lateractual db.open
+        # TODO add PercentDiffBetweenMovAvg
+        # TODO add PE ratio
+
+        # TODO add  5, 10, 20, 40, 80, 160  days later actual db.open
 
 
         for dayIndex in range(len(self.dataPoints)):
             db = self.dataPoints[dayIndex]
-            df.at[db.date, 'open'] = db.open
+            df.at[db.date, 'x1'] = db.open
 
             num = self.movingAvgIndex(db)
             if num > 0:
@@ -380,35 +388,45 @@ class Analysis:
             elif num < 0:
                 plt.plot(db.date, db.open, marker='o', linestyle='--', color='b', markersize=num*-1)
 
-            df.at[db.date, 'num'] = num
+            df.at[db.date, 'x2'] = num
             if db.peaked(150, self.dataPoints, minWindow=40, maxWindow=100):
-                df.at[db.date, 'peaked1'] = 1
+                df.at[db.date, 'x3'] = 1
             else:
-                df.at[db.date, 'peaked1'] = 0
+                df.at[db.date, 'x3'] = 0
             if db.peaked(250, self.dataPoints, minWindow=40, maxWindow=50):
-                df.at[db.date, 'peaked2'] = 1
+                df.at[db.date, 'x4'] = 1
             else:
-                df.at[db.date, 'peaked2'] = 0
+                df.at[db.date, 'x4'] = 0
             if db.peaked(30, self.dataPoints, minWindow=10, maxWindow=20, MinToMaxRatio=.94):
-                df.at[db.date, 'peaked3'] = 1
+                df.at[db.date, 'x5'] = 1
             else:
-                df.at[db.date, 'peaked3'] = 0
+                df.at[db.date, 'x5'] = 0
             if (dayIndex >= 5):
-                df.at[db.date, 'slope5'] = self.calculateSlope(5, db.getRollingData(5), db.date)
+                df.at[db.date, 'x6'] = self.calculateSlope(5, db.getRollingData(5), db.date)
             if (dayIndex >= 10):
-                 df.at[db.date, 'slope10'] = self.calculateSlope(10, db.getRollingData(10), db.date)
+                 df.at[db.date, 'x7'] = self.calculateSlope(10, db.getRollingData(10), db.date)
             if (dayIndex >= 20):
-                df.at[db.date, 'slope20'] = self.calculateSlope(20, db.getRollingData(20), db.date)
+                df.at[db.date, 'x8'] = self.calculateSlope(20, db.getRollingData(20), db.date)
             if (dayIndex >= 40):
-                df.at[db.date, 'slope40'] = self.calculateSlope(40, db.getRollingData(40), db.date)
+                df.at[db.date, 'x9'] = self.calculateSlope(40, db.getRollingData(40), db.date)
             if (dayIndex >= 80):
-                df.at[db.date, 'slope80'] = self.calculateSlope(80, db.getRollingData(80), db.date)
+                df.at[db.date, 'x10'] = self.calculateSlope(80, db.getRollingData(80), db.date)
             if (dayIndex >= 160):
-                df.at[db.date, 'slope160'] = self.calculateSlope(160, db.getRollingData(160), db.date)
+                df.at[db.date, 'x11'] = self.calculateSlope(160, db.getRollingData(160), db.date)
+            if (dayIndex >= 20):
+                df.at[db.date, 'x12'] = self.diff_from_moving_avg(db, 20)
+            if (dayIndex >= 40):
+                df.at[db.date, 'x13'] = self.diff_from_moving_avg(db, 40)
+            if (dayIndex >= 80):
+                df.at[db.date, 'x14'] = self.diff_from_moving_avg(db, 80)
+            if (dayIndex >= 160):
+                df.at[db.date, 'x15'] = self.diff_from_moving_avg(db, 160)
             if dayIndex + 5 < len(self.open):
-                df.at[db.date, '5D'] = self.open[dayIndex + 5]
+                df.at[db.date, 'y1'] = self.open[dayIndex + 5]
+            if dayIndex + 10 < len(self.open):
+                df.at[db.date, 'y2'] = self.open[dayIndex + 10]
             if dayIndex + 50 < len(self.open):
-                df.at[db.date, '50D'] = self.open[dayIndex + 50]
+                df.at[db.date, 'y3'] = self.open[dayIndex + 50]
 
 
             # if db.peaked(80, self.dataPoints):
@@ -443,6 +461,6 @@ class Analysis:
 
 
 if __name__ == "__main__":
-    A = Analysis("CDE", start=datetime.datetime(2012, 1, 1))
+    A = Analysis("PFPT", start=datetime.datetime(2012, 1, 1))
     # A.bare_run()
     A.csv_indices()

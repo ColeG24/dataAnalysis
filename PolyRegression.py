@@ -7,92 +7,98 @@ with warnings.catch_warnings():
     from sklearn.preprocessing import PolynomialFeatures
     from sklearn.pipeline import Pipeline
 import  pandas as p
+import random
+import numbers
+import math
 
-degrees = [2, 3, 4, 5]
-# data = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\MSITrain.csv")
-# cvData = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\MSI_CV.csv")
-data = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\CDETrain.csv")
-cvData = p.read_csv("C:\\Users\\cole\\Desktop\\Brks\\CDE_CV.csv")
+class PolyRegression:
 
-# TODO Make mathod that takes in csv, and do this automatically
-X1 = [x for x in data['x1'].values]
-X2 = [x for x in data['x2'].values]
-X3 = [x for x in data['x3'].values]
-X4 = [x for x in data['x4'].values]
-X5 = [x for x in data['x5'].values]
-X6 = [x for x in data['x6'].values]
-X7 = [x for x in data['x7'].values]
-X8 = [x for x in data['x8'].values]
-X9 = [x for x in data['x9'].values]
-X10 = [x for x in data['x10'].values]
-X11 = [x for x in data['x11'].values]
+    def run(self, degrees, rowToPredict):
 
-Y1 = [x for x in data['y1'].values]
-Y2 = [x for x in data['y2'].values]
+        for i in range(len(degrees)):
+            polynomial_features = PolynomialFeatures(degree=degrees[i],
+                                                     include_bias=False)
+            linear_regression = LinearRegression()
+            pipeline = Pipeline([("polynomial_features", polynomial_features),
+                                 ("linear_regression", linear_regression)])
+            pipeline.fit(self.xVectors, self.yVectors)
 
-cvX1 = [x for x in cvData['x1'].values]
-cvX2 = [x for x in cvData['x2'].values]
-cvX3 = [x for x in cvData['x3'].values]
-cvX4 = [x for x in cvData['x4'].values]
-cvX5 = [x for x in cvData['x5'].values]
-cvX6 = [x for x in cvData['x6'].values]
-cvX7 = [x for x in cvData['x7'].values]
-cvX8 = [x for x in cvData['x8'].values]
-cvX9 = [x for x in cvData['x9'].values]
-cvX10 = [x for x in cvData['x10'].values]
-cvX11 = [x for x in cvData['x11'].values]
+            print("------------------------------------------------")
+            print("degree:", degrees[i])
+            avgSquaredE = 0.0
+            avgError = 0.0
+            length = len(self.yVectors_cv)
+            bought = 0
+            sold = 0
+            for x in range(0, length):
+                current = self.xVectors_cv[x][0]
+                guess = pipeline.predict(self.xVectors_cv[x])
+                actual = self.yVectors_cv[x]
+                # if(guess[0][0] > current * 1.01):
+                #     bought += actual[0] - current
+                # if(guess[0][0] < current *.99):
+                #     sold += current - actual[0]
+                error = abs(guess - actual)
+                squaredE = error ** 2
+                avgSquaredE += squaredE
+                avgError += error
+            avgSquaredE /= length
+            avgError /= length
+            print("Avg Squared Error:")
+            print(avgSquaredE)
+            print("Avg Error:")
+            print(avgError)
+            # print(bought)
+            # print(sold)
+            print("Prediction:")
+            print(pipeline.predict(rowToPredict))
+            print("------------------------------------------------")
 
-cvY1 = [x for x in cvData['y1'].values]
-cvY2 = [x for x in cvData['y2'].values]
+    def __init__(self, csvFile, xColumns, yColumns, cvPercent=.2):
+        self.data = p.read_csv(csvFile)
 
-xVectors = []
-for i in range(0, len(X1)):
-    xVectors.append([X1[i],X2[i],X3[i],X4[i],X5[i],X6[i],X7[i],X8[i],X9[i],X10[i],X11[i]])
+        length = len(self.data[xColumns[0]].values)
 
-yVectors = []
-for i in range(0, len(X1)):
-    yVectors.append([Y1[i],Y2[i]])
+        self.xVectors = []
+        self.yVectors = []
+        self.xVectors_cv = []
+        self.yVectors_cv = []
 
-cv_xVectors = []
-for i in range(0, len(cvX1)):
-    cv_xVectors.append([cvX1[i],cvX2[i],cvX3[i],cvX4[i],cvX5[i],cvX6[i],cvX7[i],cvX8[i],cvX9[i],cvX10[i],cvX11[i]])
+        # For each row
+        for i in range(0, length):
 
-cv_yVectors = []
-for i in range(0, len(cvX1)):
-    cv_yVectors.append([cvY1[i],cvY2[i]])
+            skipRow = False
+            # Create x and y row
+            xRow = []
+            for xColumn in xColumns:
+                val = self.data[xColumn].values[i]
+                xRow.append(val)
 
-degrees = [1,2,3]
-for i in range(len(degrees)):
+                if not isinstance(val, numbers.Real) or math.isnan(val):
+                    skipRow = True
+            yRow = []
+            for yColumn in yColumns:
+                val = self.data[yColumn].values[i]
+                yRow.append(val)
+                if not isinstance(val, numbers.Real) or math.isnan(val):
+                    skipRow = True
 
+            # Skip invalid rows
+            if skipRow:
+                continue
 
-    polynomial_features = PolynomialFeatures(degree=degrees[i],
-                                             include_bias=False)
-    linear_regression = LinearRegression()
-    pipeline = Pipeline([("polynomial_features", polynomial_features),
-                         ("linear_regression", linear_regression)])
-    pipeline.fit(xVectors, yVectors)
+            # Determine if it should be a cross validate value or not
+            r = random.random()
+            if r >= cvPercent:
+                self.xVectors.append(xRow)
+                self.yVectors.append(yRow)
+            else:
+                self.xVectors_cv.append(xRow)
+                self.yVectors_cv.append(yRow)
 
-    print("------------------------------------------------")
-    print(degrees[i])
-    avgE = 0.0
-    length = len(cv_yVectors)
-    # bought = 0
-    # sold = 0
-    for x in range(0, length):
-        current = cv_xVectors[x][0]
-        guess = pipeline.predict(cv_xVectors[x])
-        actual = cv_yVectors[x]
-        # if(guess[0][0] > current * 1.01):
-        #     bought += actual[0] - current
-        # if(guess[0][0] < current *.99):
-        #     sold += current - actual[0]
-        e = (guess - actual) ** 2
-        avgE += e
-    avgE /= length
-    print(avgE)
-    # print(bought)
-    # print(sold)
-    print(pipeline.predict([8.87,15.7334716101,1,1,0,-0.3208,-0.0628909090909,0.00373984962406,-0.0458340525328,-0.0140111404126,0.0499829469047]))
-
-
-    print("------------------------------------------------")
+if __name__ == "__main__":
+    P = PolyRegression(csvFile="C:\\Users\\cole\\Desktop\\Brks\\PFPT_Processed.csv",
+                       xColumns=['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12' ,'x13' , 'x14', 'x15'],
+                       yColumns=['y1', 'y2', 'y3'])
+    P.run(degrees=[1, 2, 3]
+          ,rowToPredict=[82.33,0,0,0,0,0.7994,0.368612121212,0.199587593985,-0.048517565666,0.0734299314346,0.13835385333,1.07334689195,1.10019410081,1.08749995872,1.13834374649])
