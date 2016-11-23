@@ -2,6 +2,7 @@ import warnings
 
 import matplotlib.pyplot as plt
 import pandas as p
+import numpy as np
 
 from DataRead.GoogleStockReader import GoogleStockReader
 with warnings.catch_warnings():
@@ -21,7 +22,7 @@ class Analysis:
             self.series = series
             self.date = date
 
-        def getRollingData(self, window, operation='mean'):
+        def getRollingDataForDay(self, window, operation='mean'):
             s = self.series.resample("1D").fillna('ffill').rolling(window=window)
             if (operation == 'mean'):
                 return s.mean()[self.date]
@@ -31,6 +32,17 @@ class Analysis:
                 return s.min()[self.date]
             if (operation == 'var'):
                 return s.var()[self.date]
+
+        def getRollingData(self, window, operation='mean'):
+            s = self.series.resample("1D").fillna('ffill').rolling(window=window)
+            if (operation == 'mean'):
+                return s.mean()
+            if (operation == 'max'):
+                return s.max()
+            if (operation == 'min'):
+                return s.min()
+            if (operation == 'var'):
+                return s.var()
 
         def peaked(self, distBtwnMinAndMax, dataPieces, minWindow=30, maxWindow=20, peakWidthMax=20, MinToMaxRatio=.9):
             max = self.series.resample("1D").fillna('ffill').rolling(window=maxWindow).max()[self.date]
@@ -69,6 +81,7 @@ class Analysis:
 
     def __init__(self, company, start=datetime.datetime(2014, 1, 1), end=datetime.date.today()):
 
+        self.company = company
         data = p.read_csv(GoogleStockReader.getStockUrl(company, start, end), parse_dates=True, names=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
 
         d = [x for x in data['Date'].values]
@@ -123,7 +136,7 @@ class Analysis:
         movAvg160 = s.resample("1D").fillna('ffill').rolling(window=160,)
         movAvg320 = s.resample("1D").fillna('ffill').rolling(window=320,)
 
-        print(self.dataPoints[50].getRollingData(5))
+        print(self.dataPoints[50].getRollingDataForDay(5))
         print(len(self.dates))
 
 
@@ -177,8 +190,8 @@ class Analysis:
 
 
             # Does nothing right now was just curious how volatility affects the market
-            recentVolatily = db.getRollingData(40,'var')
-            longTermVolatily = db.getRollingData(100,'var')
+            recentVolatily = db.getRollingDataForDay(40, 'var')
+            longTermVolatily = db.getRollingDataForDay(100, 'var')
 
             # if (not math.isnan(longTermVolatily)):
             #     if recentVolatily*.9 > longTermVolatily:
@@ -191,20 +204,20 @@ class Analysis:
             plt.plot(db.date, sll.price, marker='o', linestyle='--', color='pink', markersize=5)
 
             # Within range to 20 day min, and its starting to pick up
-            goodBuyShortTerm = db.open*.98 <= db.getRollingData(20, 'min') and db.getRollingData(50) > db.getRollingData(100)
+            goodBuyShortTerm = db.open*.98 <= db.getRollingDataForDay(20, 'min') and db.getRollingDataForDay(50) > db.getRollingDataForDay(100)
 
             # Within range to 100 day min, and its starting to pick up
-            goodBuyLongTerm = db.open*.98 <= db.getRollingData(100, 'min') and db.getRollingData(100) > db.getRollingData(150)
+            goodBuyLongTerm = db.open*.98 <= db.getRollingDataForDay(100, 'min') and db.getRollingDataForDay(100) > db.getRollingDataForDay(150)
 
             # Price is well below usual
-            wellBelowUsual = (db.open*.97 < db.getRollingData(100, 'min') and db.getRollingData(100) > db.getRollingData(150))\
-                             or db.open*.98 < db.getRollingData(150, 'min')
+            wellBelowUsual = (db.open * .97 < db.getRollingDataForDay(100, 'min') and db.getRollingDataForDay(100) > db.getRollingDataForDay(150))\
+                             or db.open*.98 < db.getRollingDataForDay(150, 'min')
 
             # Most expensive its been in 20 days, and its slowing down
-            goodSellShortTerm = db.open*.99 >= db.getRollingData(20, 'max') and db.getRollingData(5) < db.getRollingData(50)
+            goodSellShortTerm = db.open*.99 >= db.getRollingDataForDay(20, 'max') and db.getRollingDataForDay(5) < db.getRollingDataForDay(50)
 
             # Most expensive its been in 50 days, and its slowing down
-            goodSellLongTerm = db.open*.98 >= db.getRollingData(50, 'max') and db.getRollingData(10) < db.getRollingData(100)
+            goodSellLongTerm = db.open*.98 >= db.getRollingDataForDay(50, 'max') and db.getRollingDataForDay(10) < db.getRollingDataForDay(100)
 
 
             # belowMarks = db.open <= db.getRollingData(60) #and db.getRollingData(3) < db.getRollingData(10)
@@ -215,7 +228,7 @@ class Analysis:
                     stockToBuy = 1
 
                     # A number that correlates with how strong the buy will be
-                    num = ((db.getRollingData(50)/db.getRollingData(4)) - 1)*100
+                    num = ((db.getRollingDataForDay(50) / db.getRollingDataForDay(4)) - 1) * 100
                     if (num > 1):
                         stockToBuy = int(num)
                     if (num < onlyBuyWhenNumIsAbove):
@@ -239,7 +252,7 @@ class Analysis:
                     stockToSell = 1
 
                     # A number that correlates with how strong the sell will be
-                    num = (db.getRollingData(15)/ db.getRollingData(50) - 1) * 100
+                    num = (db.getRollingDataForDay(15) / db.getRollingDataForDay(50) - 1) * 100
                     if (num > 1):
                         stockToSell = int(num)
                     if (num < onlySellWhenNumIsAbove):
@@ -286,25 +299,25 @@ class Analysis:
 
     def movingAvgIndex(self, db):
         # Within range to 20 day min, and its starting to pick up
-        goodBuyShortTerm = db.open * .98 <= db.getRollingData(20, 'min') and db.getRollingData(
-            50) > db.getRollingData(100)
+        goodBuyShortTerm = db.open * .98 <= db.getRollingDataForDay(20, 'min') and db.getRollingDataForDay(
+            50) > db.getRollingDataForDay(100)
 
         # Within range to 100 day min, and its starting to pick up
-        goodBuyLongTerm = db.open * .98 <= db.getRollingData(100, 'min') and db.getRollingData(
-            100) > db.getRollingData(150)
+        goodBuyLongTerm = db.open * .98 <= db.getRollingDataForDay(100, 'min') and db.getRollingDataForDay(
+            100) > db.getRollingDataForDay(150)
 
         # Price is well below usual
-        wellBelowUsual = (db.open * .97 < db.getRollingData(100, 'min') and db.getRollingData(
-            100) > db.getRollingData(150)) \
-                         or db.open * .98 < db.getRollingData(150, 'min')
+        wellBelowUsual = (db.open * .97 < db.getRollingDataForDay(100, 'min') and db.getRollingDataForDay(
+            100) > db.getRollingDataForDay(150)) \
+                         or db.open * .98 < db.getRollingDataForDay(150, 'min')
 
         # Most expensive its been in 20 days, and its slowing down
-        goodSellShortTerm = db.open * .99 >= db.getRollingData(20, 'max') and db.getRollingData(
-            5) < db.getRollingData(50)
+        goodSellShortTerm = db.open * .99 >= db.getRollingDataForDay(20, 'max') and db.getRollingDataForDay(
+            5) < db.getRollingDataForDay(50)
 
         # Most expensive its been in 50 days, and its slowing down
-        goodSellLongTerm = db.open * .98 >= db.getRollingData(50, 'max') and db.getRollingData(
-            10) < db.getRollingData(100)
+        goodSellLongTerm = db.open * .98 >= db.getRollingDataForDay(50, 'max') and db.getRollingDataForDay(
+            10) < db.getRollingDataForDay(100)
 
         # belowMarks = db.open <= db.getRollingData(60) #and db.getRollingData(3) < db.getRollingData(10)
 
@@ -312,15 +325,16 @@ class Analysis:
         # Buy
         if goodBuyShortTerm or goodBuyLongTerm or wellBelowUsual:
             # A number that correlates with how strong the buy will be
-            num = ((db.getRollingData(50) / db.getRollingData(4)) - 1) * 100
+            num = ((db.getRollingDataForDay(50) / db.getRollingDataForDay(4)) - 1) * 100
         # Sell
         elif goodSellLongTerm or goodSellShortTerm:
             # A number that correlates with how strong the sell will be
-            num = -1*(db.getRollingData(15) / db.getRollingData(50) - 1) * 100
+            num = -1*(db.getRollingDataForDay(15) / db.getRollingDataForDay(50) - 1) * 100
         return num
 
     # Using this to get best markers for certain things
     def bare_run (self):
+
         # Plot actual open data
         s = p.Series(self.open, self.dates)
         s.cumsum()
@@ -328,25 +342,28 @@ class Analysis:
 
         for dayIndex in range(len(self.dataPoints)):
             db = self.dataPoints[dayIndex]
+            if (dayIndex > 5):
+                slope = self.calculateSlope(5, db.getRollingData(5), db.date)
+                print(slope)
             num = self.movingAvgIndex(db)
-            if num > 0:
-                plt.plot(db.date, db.open, marker='o', linestyle='--', color='r', markersize=num)
-            elif num < 0:
-                plt.plot(db.date, db.open, marker='o', linestyle='--', color='b', markersize=num*-1)
+            # if num > 0:
+            #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='r', markersize=num)
+            # elif num < 0:
+            #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='b', markersize=num*-1)
             if db.peaked(150, self.dataPoints, minWindow=40, maxWindow=100):
                 plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=4)
             if db.peaked(250, self.dataPoints, minWindow=40, maxWindow=50):
                 plt.plot(db.date, db.open, marker='o', linestyle='--', color='y', markersize=4)
             if db.peaked(30, self.dataPoints, minWindow=10, maxWindow=20, MinToMaxRatio=.94):
                 plt.plot(db.date, db.open, marker='o', linestyle='--', color='r', markersize=4)
-            # if db.peaked(80, self.dataPoints):
-            #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=8)
+            if db.peaked(80, self.dataPoints):
+                plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=8)
 
         plt.show()
 
 
     def csv_indices(self):
-        columns = ['open', 'num', 'peaked1', 'peaked2', 'peaked3']
+        columns = ['open', 'num', 'peaked1', 'peaked2', 'peaked3', 'slope5', 'slope10', 'slope20', 'slope40', 'slope80','slope160','5D','50D']
         index = self.dates
         df = p.DataFrame(index=index, columns=columns)
         # TODO add DOW && S&P index
@@ -376,12 +393,30 @@ class Analysis:
                 df.at[db.date, 'peaked3'] = 1
             else:
                 df.at[db.date, 'peaked3'] = 0
+            if (dayIndex >= 5):
+                df.at[db.date, 'slope5'] = self.calculateSlope(5, db.getRollingData(5), db.date)
+            if (dayIndex >= 10):
+                 df.at[db.date, 'slope10'] = self.calculateSlope(10, db.getRollingData(10), db.date)
+            if (dayIndex >= 20):
+                df.at[db.date, 'slope20'] = self.calculateSlope(20, db.getRollingData(20), db.date)
+            if (dayIndex >= 40):
+                df.at[db.date, 'slope40'] = self.calculateSlope(40, db.getRollingData(40), db.date)
+            if (dayIndex >= 80):
+                df.at[db.date, 'slope80'] = self.calculateSlope(80, db.getRollingData(80), db.date)
+            if (dayIndex >= 160):
+                df.at[db.date, 'slope160'] = self.calculateSlope(160, db.getRollingData(160), db.date)
+            if dayIndex + 5 < len(self.open):
+                df.at[db.date, '5D'] = self.open[dayIndex + 5]
+            if dayIndex + 50 < len(self.open):
+                df.at[db.date, '50D'] = self.open[dayIndex + 50]
+
+
             # if db.peaked(80, self.dataPoints):
             #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=8)
-        df.to_csv("C:\\Users\\cole\\Desktop\\Brks\\test.csv")
+        df.to_csv("C:\\Users\\cole\\Desktop\\Brks\\" + self.company + "_processed.csv")
     def peakedRecently(self, db, index, peakLookBack=3):
 
-        if index >= peakLookBack and db.getRollingData(2, 'mean') > db.getRollingData(5, 'mean'):
+        if index >= peakLookBack and db.getRollingDataForDay(2, 'mean') > db.getRollingDataForDay(5, 'mean'):
             for indexOfRecentDays in range(0, peakLookBack):
                 if self.dataPoints[index - indexOfRecentDays].peaked(80, self.dataPoints, minWindow=20, maxWindow=40):
                     return True
@@ -393,9 +428,20 @@ class Analysis:
         except ValueError:
             return False
 
+    def calculateSlope(self, numDays, series, date):
+        xs = np.zeros(numDays)
+        ys = np.zeros(numDays)
+        for i in range(0, numDays):
+            newDate = date - datetime.timedelta(days=i)
+            ys[i] = series[newDate]
+            xs[i] = i
+        # dy = (np.roll(ys, -1, axis=1) - ys)[:,:-1]
+        # dx = (np.roll(xs, -1, axis=0) - xs)[:-1]
+        from scipy.stats import linregress
+        return linregress(xs, ys)[0]
 
 
 if __name__ == "__main__":
-    A = Analysis("MSI")
+    A = Analysis("MSI", start=datetime.datetime(2012, 1, 1))
     # A.bare_run()
     A.csv_indices()
