@@ -368,7 +368,7 @@ class Analysis:
 
 
     def csv_indices(self):
-        columns = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10','x11','x12','x13', 'x14','x15', 'y1','y2','y3']
+        columns = ['x0','x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10','x11','x12','x13', 'x14','x15','x16','x17','x18','x19' 'y1','y2','y3','k']
         index = self.dates
         df = p.DataFrame(index=index, columns=columns)
         # TODO add DOW && S&P index
@@ -380,7 +380,9 @@ class Analysis:
 
         for dayIndex in range(len(self.dataPoints)):
             db = self.dataPoints[dayIndex]
-            df.at[db.date, 'x1'] = db.open
+            df.at[db.date, 'x0'] = db.open
+
+            df.at[db.date, 'x1'] = db.getRollingDataForDay(300)/db.open
 
             num = self.movingAvgIndex(db)
             if num > 0:
@@ -421,17 +423,27 @@ class Analysis:
                 df.at[db.date, 'x14'] = self.diff_from_moving_avg(db, 80)
             if (dayIndex >= 160):
                 df.at[db.date, 'x15'] = self.diff_from_moving_avg(db, 160)
+            if (dayIndex >= 20):
+                df.at[db.date, 'x16'] = db.getRollingDataForDay(20,operation='var')
+            if (dayIndex >= 40):
+                df.at[db.date, 'x17'] = db.getRollingDataForDay(40,operation='var')
+            if (dayIndex >= 80):
+                df.at[db.date, 'x18'] = db.getRollingDataForDay(80,operation='var')
+            if (dayIndex >= 160):
+                df.at[db.date, 'x19'] = db.getRollingDataForDay(160,operation='var')
+            if (dayIndex >= 300):
+                df.at[db.date, 'k'] = db.getRollingDataForDay(300)
             if dayIndex + 5 < len(self.open):
-                df.at[db.date, 'y1'] = self.open[dayIndex + 5]
+                df.at[db.date, 'y1'] = self.open[dayIndex + 5]/db.open
             if dayIndex + 10 < len(self.open):
-                df.at[db.date, 'y2'] = self.open[dayIndex + 10]
+                df.at[db.date, 'y2'] = self.open[dayIndex + 10]/db.open
             if dayIndex + 50 < len(self.open):
-                df.at[db.date, 'y3'] = self.open[dayIndex + 50]
+                df.at[db.date, 'y3'] = self.open[dayIndex + 50]/db.open
 
 
             # if db.peaked(80, self.dataPoints):
             #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=8)
-        df.to_csv("C:\\Users\\cole\\Desktop\\Brks\\" + self.company + "_processed.csv")
+        df.to_csv("Processed_csv\\" + self.company + "_processed.csv")
     def peakedRecently(self, db, index, peakLookBack=3):
 
         if index >= peakLookBack and db.getRollingDataForDay(2, 'mean') > db.getRollingDataForDay(5, 'mean'):
@@ -461,6 +473,6 @@ class Analysis:
 
 
 if __name__ == "__main__":
-    A = Analysis("PFPT", start=datetime.datetime(2012, 1, 1))
+    A = Analysis("X", start=datetime.datetime(2011, 1, 1))
     # A.bare_run()
     A.csv_indices()
