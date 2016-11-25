@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="433a8f00-e4a3-45f0-a13f-c003d8362f6a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/BatchGradientDescent.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/D4.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HW4.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IncrementalGradientDescent.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gd- 1.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gd-10.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gd-20.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gd-30.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gd-50.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gd-75.pdf" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/BrksDataAnalysis.py" afterPath="$PROJECT_DIR$/PreProcessor.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PolyRegression.py" afterPath="$PROJECT_DIR$/Analyzer.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MultiStockPreProcessor.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/company_lists/BigTechs" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/company_lists/Tech stocks.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Analyzer.py" afterPath="$PROJECT_DIR$/Analyzer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PreProcessor.py" afterPath="$PROJECT_DIR$/PreProcessor.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Processed_csv/AMZN_processed.csv" afterPath="$PROJECT_DIR$/Processed_csv/AMZN_processed.csv" />
     </list>
     <ignored path="hw3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,8 +31,8 @@
       <file leaf-file-name="Analyzer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Analyzer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="165" column="73" selection-start-line="165" selection-start-column="73" selection-end-line="165" selection-end-column="73" />
+            <state relative-caret-position="374">
+              <caret line="161" column="49" selection-start-line="161" selection-start-column="49" selection-end-line="161" selection-end-column="49" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -46,85 +40,51 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MSI_processed.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Processed_csv/MSI_processed.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="1485" column="177" selection-start-line="1485" selection-start-column="17" selection-end-line="1485" selection-end-column="183" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GradientDescent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/GradientDescent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="858">
-              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/indexes/base.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="41998">
-              <caret line="1944" column="0" selection-start-line="1944" selection-start-column="0" selection-end-line="1944" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BatchGradientDescent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BatchGradientDescent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="902">
-              <caret line="41" column="14" selection-start-line="41" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IncrementalGradientDescent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IncrementalGradientDescent.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="D4.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/D4.csv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="8" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HW4.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HW4.py">
+      <file leaf-file-name="request.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Anaconda3/Lib/urllib/request.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="176">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#48#0" expanded="true" />
-              </folding>
+              <caret line="589" column="0" selection-start-line="589" selection-start-column="0" selection-end-line="589" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="codecs.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Anaconda3/Lib/codecs.py">
+      <file leaf-file-name="pydevd.py" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6820">
-              <caret line="310" column="0" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
+            <state relative-caret-position="265">
+              <caret line="1579" column="0" selection-start-line="1579" selection-start-column="0" selection-end-line="1579" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BigTechs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/company_lists/BigTechs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="110">
+              <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GOOG_processed.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Processed_csv/GOOG_processed.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tech stocks.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/company_lists/Tech stocks.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -133,11 +93,41 @@
       <file leaf-file-name="PreProcessor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PreProcessor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="474" column="26" selection-start-line="474" selection-start-column="26" selection-end-line="474" selection-end-column="26" />
+            <state relative-caret-position="-2134">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MultiStockPreProcessor.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiStockPreProcessor.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#29#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="parsers.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="561" column="0" selection-start-line="561" selection-start-column="0" selection-end-line="561" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="common.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/common.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="307" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -168,8 +158,11 @@
         <option value="$PROJECT_DIR$/IncrementalGradientDescent.py" />
         <option value="$PROJECT_DIR$/BrksDataAnalysis.py" />
         <option value="$PROJECT_DIR$/PolyRegression.py" />
-        <option value="$PROJECT_DIR$/PreProcessor.py" />
+        <option value="$PROJECT_DIR$/company_lists/Tech stocks.txt" />
+        <option value="$PROJECT_DIR$/company_lists/BigTechs" />
         <option value="$PROJECT_DIR$/Analyzer.py" />
+        <option value="$PROJECT_DIR$/PreProcessor.py" />
+        <option value="$PROJECT_DIR$/MultiStockPreProcessor.py" />
       </list>
     </option>
   </component>
@@ -204,8 +197,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -234,12 +225,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="company_lists" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hw3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hw3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Processed_csv" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -247,11 +254,12 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\cole\PycharmProjects\hw3\company_lists" />
       <recent name="C:\Users\cole\PycharmProjects\hw3" />
       <recent name="C:\Users\cole\PycharmProjects\hw3\DataRead" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Analyzer">
+  <component name="RunManager" selected="Python.MultiStockPreProcessor">
     <configuration default="false" name="BrksDataAnalysis" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -286,23 +294,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="IncrementalGradientDescent" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="hw3" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/IncrementalGradientDescent.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="PreProcessor" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -333,6 +324,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="hw3" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Analyzer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MultiStockPreProcessor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="hw3" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MultiStockPreProcessor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -474,17 +482,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.BrksDataAnalysis" />
       <item index="1" class="java.lang.String" itemvalue="Python.PolyRegression" />
-      <item index="2" class="java.lang.String" itemvalue="Python.IncrementalGradientDescent" />
-      <item index="3" class="java.lang.String" itemvalue="Python.PreProcessor" />
-      <item index="4" class="java.lang.String" itemvalue="Python.Analyzer" />
+      <item index="2" class="java.lang.String" itemvalue="Python.PreProcessor" />
+      <item index="3" class="java.lang.String" itemvalue="Python.Analyzer" />
+      <item index="4" class="java.lang.String" itemvalue="Python.MultiStockPreProcessor" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.Analyzer" />
-        <item index="1" class="java.lang.String" itemvalue="Python.PreProcessor" />
-        <item index="2" class="java.lang.String" itemvalue="Python.BrksDataAnalysis" />
-        <item index="3" class="java.lang.String" itemvalue="Python.PolyRegression" />
-        <item index="4" class="java.lang.String" itemvalue="Python.IncrementalGradientDescent" />
+        <item index="0" class="java.lang.String" itemvalue="Python.MultiStockPreProcessor" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Analyzer" />
+        <item index="2" class="java.lang.String" itemvalue="Python.PreProcessor" />
+        <item index="3" class="java.lang.String" itemvalue="Python.BrksDataAnalysis" />
+        <item index="4" class="java.lang.String" itemvalue="Python.PolyRegression" />
       </list>
     </recent_temporary>
   </component>
@@ -503,14 +511,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1098" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17864583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882413" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36940688" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37669095" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -521,7 +530,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882413" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -550,12 +558,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PreProcessor.py</url>
-          <line>245</line>
+          <line>258</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PreProcessor.py</url>
-          <line>336</line>
+          <line>349</line>
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -565,23 +573,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Analyzer.py</url>
-          <line>153</line>
+          <line>199</line>
           <option name="timeStamp" value="113" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Analyzer.py</url>
-          <line>166</line>
+          <line>212</line>
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/PreProcessor.py</url>
-          <line>412</line>
+          <line>441</line>
           <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Analyzer.py</url>
-          <line>38</line>
-          <option name="timeStamp" value="117" />
+          <line>65</line>
+          <option name="timeStamp" value="131" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/PreProcessor.py</url>
+          <line>401</line>
+          <option name="timeStamp" value="132" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -594,7 +607,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="118" />
+      <option name="time" value="133" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -603,156 +616,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/GradientDescent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34738">
-          <caret line="1579" column="0" selection-start-line="1579" selection-start-column="0" selection-end-line="1579" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/linear_model/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3674">
-          <caret line="186" column="8" selection-start-line="186" selection-start-column="8" selection-end-line="186" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12342">
-          <caret line="561" column="0" selection-start-line="561" selection-start-column="0" selection-end-line="561" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/astropy/table/table.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10032">
-          <caret line="456" column="11" selection-start-line="456" selection-start-column="11" selection-end-line="456" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/utils/mocking.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LinearRegression.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GradientDescent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33968">
-          <caret line="1579" column="0" selection-start-line="1579" selection-start-column="0" selection-end-line="1579" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/linear_model/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3674">
-          <caret line="186" column="8" selection-start-line="186" selection-start-column="8" selection-end-line="186" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11770">
-          <caret line="561" column="0" selection-start-line="561" selection-start-column="0" selection-end-line="561" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/astropy/table/table.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9350">
-          <caret line="456" column="11" selection-start-line="456" selection-start-column="11" selection-end-line="456" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/utils/mocking.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/tools/plotting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/utils/mocking.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/astropy/table/table.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9350">
-          <caret line="456" column="11" selection-start-line="456" selection-start-column="11" selection-end-line="456" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11770">
-          <caret line="561" column="0" selection-start-line="561" selection-start-column="0" selection-end-line="561" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/linear_model/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3674">
-          <caret line="186" column="8" selection-start-line="186" selection-start-column="8" selection-end-line="186" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33968">
-          <caret line="1579" column="0" selection-start-line="1579" selection-start-column="0" selection-end-line="1579" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/matplotlib/backends/backend_pdf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8338">
-          <caret line="421" column="0" selection-start-line="421" selection-start-column="0" selection-end-line="421" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sympy/core/expr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62744">
-          <caret line="2863" column="0" selection-start-line="2863" selection-start-column="0" selection-end-line="2863" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharm2016.2/system/python_stubs/2080386802/numpy/core/multiarray.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="59950">
@@ -861,13 +724,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/utils/validation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8954">
-          <caret line="414" column="0" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/utils/multiclass.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
@@ -879,7 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11374">
           <caret line="544" column="0" selection-start-line="544" selection-start-column="0" selection-end-line="544" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -887,7 +742,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6820">
           <caret line="310" column="0" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -895,7 +749,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="41998">
           <caret line="1944" column="0" selection-start-line="1944" selection-start-column="0" selection-end-line="1944" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -911,60 +764,228 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="8" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HW4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IncrementalGradientDescent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/multiprocessing/pool.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1907">
+          <caret line="254" column="8" selection-start-line="254" selection-start-column="8" selection-end-line="254" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/scipy/stats/_distn_infrastructure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="1747" column="0" selection-start-line="1747" selection-start-column="0" selection-end-line="1747" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/PYPL_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/HPQ_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/MSFT_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/NFLX_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/AMZN_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/MSI_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32670">
+          <caret line="1485" column="177" selection-start-line="1485" selection-start-column="177" selection-end-line="1485" selection-end-column="177" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/VZ_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" column="149" selection-start-line="25" selection-start-column="149" selection-end-line="25" selection-end-column="149" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BatchGradientDescent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="902">
+        <state relative-caret-position="884">
           <caret line="41" column="14" selection-start-line="41" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HW4.py">
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/utils/validation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="414" column="0" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/preprocessing/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="1195" column="0" selection-start-line="1195" selection-start-column="0" selection-end-line="1195" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="457" column="0" selection-start-line="457" selection-start-column="0" selection-end-line="457" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/sklearn/pipeline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/abc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/SIMO_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Processed_csv/GOOG_processed.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/company_lists/BigTechs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/company_lists/Tech stocks.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/urllib/request.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
+          <caret line="589" column="0" selection-start-line="589" selection-start-column="0" selection-end-line="589" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IncrementalGradientDescent.py">
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="265">
+          <caret line="1579" column="0" selection-start-line="1579" selection-start-column="0" selection-end-line="1579" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Processed_csv/MSI_processed.csv">
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/common.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="1485" column="177" selection-start-line="1485" selection-start-column="17" selection-end-line="1485" selection-end-column="183" />
+        <state relative-caret-position="176">
+          <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="307" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/io/parsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="561" column="0" selection-start-line="561" selection-start-column="0" selection-end-line="561" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PreProcessor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="474" column="26" selection-start-line="474" selection-start-column="26" selection-end-line="474" selection-end-column="26" />
+        <state relative-caret-position="-2134">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MultiStockPreProcessor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Analyzer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="165" column="73" selection-start-line="165" selection-start-column="73" selection-end-line="165" selection-end-column="73" />
+        <state relative-caret-position="374">
+          <caret line="161" column="49" selection-start-line="161" selection-start-column="49" selection-end-line="161" selection-end-column="49" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

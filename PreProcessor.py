@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as p
 import numpy as np
 
+
 from DataRead.GoogleStockReader import GoogleStockReader
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=DeprecationWarning)
@@ -11,7 +12,7 @@ import datetime
 from dateutil import parser
 
 
-class Analysis:
+class PreProcessor:
 
     class StopLossLim:
         def __init__(self, price):
@@ -80,7 +81,8 @@ class Analysis:
             return False
 
     def __init__(self, company, start=datetime.datetime(2014, 1, 1), end=datetime.date.today()):
-
+        self.start = start
+        self.end = end
         self.company = company
         data = p.read_csv(GoogleStockReader.getStockUrl(company, start, end), parse_dates=True, names=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
 
@@ -97,18 +99,29 @@ class Analysis:
         close = []
 
         for x in range(1, len(d)):
-            dates.append(parser.parse(d[x]))
-            open.append(float(o[x]))
-            high.append(float(h[x]))
-            low.append(float(l[x]))
-            close.append(float(c[x]))
+            try:
+                date = parser.parse(d[x])
+                opn = float(o[x])
+                hgh = float(h[x])
+                lw = float(l[x])
+                clse = float(c[x])
+
+            except:
+                # Skip any issues we have
+                continue
+
+            dates.append(date)
+            open.append(opn)
+            high.append(hgh)
+            low.append(lw)
+            close.append(clse)
 
         dataPieces = []
         s = p.Series(open, dates)
         s.cumsum()
         # Initialize all basic data
         for dayIndex in range(0, len(dates)):
-            db = Analysis.DataBlock(s, dates[dayIndex])
+            db = PreProcessor.DataBlock(s, dates[dayIndex])
             db.index = dayIndex
             db.open = open[dayIndex]
             db.high = high[dayIndex]
@@ -156,7 +169,7 @@ class Analysis:
         onlyBuyWhenNumIsAbove = 0
         onlySellWhenNumIsAbove = 0
 
-        sll = Analysis.StopLossLim(0)
+        sll = PreProcessor.StopLossLim(0)
 
         lastHigh = 0
 
@@ -368,9 +381,17 @@ class Analysis:
 
 
     def csv_indices(self):
-        columns = ['x0','x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10','x11','x12','x13', 'x14','x15','x16','x17','x18','x19' 'y1','y2','y3','k']
+        columns = ['open','percent300Avg', 'growth5', 'growth10', 'growth20','growth40','growth80','growth160','growth300',
+                   'num', 'x3', 'x4', 'x5', 'slope5', 'slope10', 'slope20', 'slope40', 'slope80',
+                   'slope160','movAvgDiff20','movAvgDiff40', 'movAvgDiff80','movAvgDiff160','var20','var40','var80','var160',
+                   '5DayActual','10DayActual','50DayActual','k']
         index = self.dates
         df = p.DataFrame(index=index, columns=columns)
+
+        # TODO make yahoo stock reader.. Google has disapointed me, and does not offer csv's off indices
+        # dowData = PreProcessor("DOW", self.start, self.end)
+        # spData = PreProcessor("INDEXSP", self.start, self.end)
+
         # TODO add DOW && S&P index
         # TODO add PercentDiffBetweenMovAvg
         # TODO add PE ratio
@@ -378,19 +399,27 @@ class Analysis:
         # TODO add  5, 10, 20, 40, 80, 160  days later actual db.open
 
 
-        for dayIndex in range(len(self.dataPoints)):
+        for dayIndex in range(300, len(self.dataPoints)):
             db = self.dataPoints[dayIndex]
-            df.at[db.date, 'x0'] = db.open
+            df.at[db.date, 'open'] = db.open
 
-            df.at[db.date, 'x1'] = db.getRollingDataForDay(300)/db.open
+            df.at[db.date, 'percent300Avg'] = db.getRollingDataForDay(300)/db.open
+
+            if dayIndex>300:
+                df.at[db.date, 'growth5'] = db.open/self.open[dayIndex-5]
+                df.at[db.date, 'growth10'] = db.open/self.open[dayIndex-10]
+                df.at[db.date, 'growth20'] = db.open/self.open[dayIndex-20]
+                df.at[db.date, 'growth40'] = db.open/self.open[dayIndex-40]
+                df.at[db.date, 'growth80'] = db.open/self.open[dayIndex-80]
+                df.at[db.date, 'growth160'] = db.open/self.open[dayIndex-160]
+                df.at[db.date, 'growth300'] = db.open/self.open[dayIndex-300]
 
             num = self.movingAvgIndex(db)
             if num > 0:
                 plt.plot(db.date, db.open, marker='o', linestyle='--', color='r', markersize=num)
             elif num < 0:
                 plt.plot(db.date, db.open, marker='o', linestyle='--', color='b', markersize=num*-1)
-
-            df.at[db.date, 'x2'] = num
+            df.at[db.date, 'num'] = num
             if db.peaked(150, self.dataPoints, minWindow=40, maxWindow=100):
                 df.at[db.date, 'x3'] = 1
             else:
@@ -404,41 +433,41 @@ class Analysis:
             else:
                 df.at[db.date, 'x5'] = 0
             if (dayIndex >= 5):
-                df.at[db.date, 'x6'] = self.calculateSlope(5, db.getRollingData(5), db.date)
+                df.at[db.date, 'slope5'] = self.calculateSlope(5, db.getRollingData(5), db.date)
             if (dayIndex >= 10):
-                 df.at[db.date, 'x7'] = self.calculateSlope(10, db.getRollingData(10), db.date)
+                 df.at[db.date, 'slope10'] = self.calculateSlope(10, db.getRollingData(10), db.date)
             if (dayIndex >= 20):
-                df.at[db.date, 'x8'] = self.calculateSlope(20, db.getRollingData(20), db.date)
+                df.at[db.date, 'slope20'] = self.calculateSlope(20, db.getRollingData(20), db.date)
             if (dayIndex >= 40):
-                df.at[db.date, 'x9'] = self.calculateSlope(40, db.getRollingData(40), db.date)
+                df.at[db.date, 'slope40'] = self.calculateSlope(40, db.getRollingData(40), db.date)
             if (dayIndex >= 80):
-                df.at[db.date, 'x10'] = self.calculateSlope(80, db.getRollingData(80), db.date)
+                df.at[db.date, 'slope80'] = self.calculateSlope(80, db.getRollingData(80), db.date)
             if (dayIndex >= 160):
-                df.at[db.date, 'x11'] = self.calculateSlope(160, db.getRollingData(160), db.date)
+                df.at[db.date, 'slope160'] = self.calculateSlope(160, db.getRollingData(160), db.date)
             if (dayIndex >= 20):
-                df.at[db.date, 'x12'] = self.diff_from_moving_avg(db, 20)
+                df.at[db.date, 'movAvgDiff20'] = self.diff_from_moving_avg(db, 20)
             if (dayIndex >= 40):
-                df.at[db.date, 'x13'] = self.diff_from_moving_avg(db, 40)
+                df.at[db.date, 'movAvgDiff40'] = self.diff_from_moving_avg(db, 40)
             if (dayIndex >= 80):
-                df.at[db.date, 'x14'] = self.diff_from_moving_avg(db, 80)
+                df.at[db.date, 'movAvgDiff80'] = self.diff_from_moving_avg(db, 80)
             if (dayIndex >= 160):
-                df.at[db.date, 'x15'] = self.diff_from_moving_avg(db, 160)
+                df.at[db.date, 'movAvgDiff160'] = self.diff_from_moving_avg(db, 160)
             if (dayIndex >= 20):
-                df.at[db.date, 'x16'] = db.getRollingDataForDay(20,operation='var')
+                df.at[db.date, 'var20'] = db.getRollingDataForDay(20,operation='var')
             if (dayIndex >= 40):
-                df.at[db.date, 'x17'] = db.getRollingDataForDay(40,operation='var')
+                df.at[db.date, 'var40'] = db.getRollingDataForDay(40,operation='var')
             if (dayIndex >= 80):
-                df.at[db.date, 'x18'] = db.getRollingDataForDay(80,operation='var')
+                df.at[db.date, 'var80'] = db.getRollingDataForDay(80,operation='var')
             if (dayIndex >= 160):
-                df.at[db.date, 'x19'] = db.getRollingDataForDay(160,operation='var')
+                df.at[db.date, 'var160'] = db.getRollingDataForDay(160,operation='var')
             if (dayIndex >= 300):
-                df.at[db.date, 'k'] = db.getRollingDataForDay(300)
+                df.at[db.date, '300MovAvg'] = db.getRollingDataForDay(300)
             if dayIndex + 5 < len(self.open):
-                df.at[db.date, 'y1'] = self.open[dayIndex + 5]/db.open
+                df.at[db.date, '5DayActual'] = self.open[dayIndex + 5]/db.open
             if dayIndex + 10 < len(self.open):
-                df.at[db.date, 'y2'] = self.open[dayIndex + 10]/db.open
+                df.at[db.date, '10DayActual'] = self.open[dayIndex + 10]/db.open
             if dayIndex + 50 < len(self.open):
-                df.at[db.date, 'y3'] = self.open[dayIndex + 50]/db.open
+                df.at[db.date, '50DayActual'] = self.open[dayIndex + 50]/db.open
 
 
             # if db.peaked(80, self.dataPoints):
@@ -465,14 +494,13 @@ class Analysis:
             newDate = date - datetime.timedelta(days=i)
             ys.append(series[newDate])
             xs.append(i)
-        # dy = (np.roll(ys, -1, axis=1) - ys)[:,:-1]
-        # dx = (np.roll(xs, -1, axis=0) - xs)[:-1]
+
         ys.reverse()
         from scipy.stats import linregress
         return linregress(xs, ys)[0]
 
 
 if __name__ == "__main__":
-    A = Analysis("X", start=datetime.datetime(2011, 1, 1))
+    A = PreProcessor("X", start=datetime.datetime(2011, 1, 1))
     # A.bare_run()
     A.csv_indices()
