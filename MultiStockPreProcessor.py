@@ -50,7 +50,7 @@ if __name__ == "__main__":
                                                                      'dow_movAvgDiff80', 'dow_movAvgDiff160',
                                                                      'dow_var20', 'dow_var40', 'dow_var80',
                                                                      'dow_var160'],
-                                                           yColumns=['5DayActual','10DayActual','50DayActual'], valColumn='open', cvPercent=.05, cvSelection='top')
+                                                           yColumns=['5DayActual','10DayActual','50DayActual'], valColumn='open', cvPercent=0.1, cvSelection='top')
 
     model.run(degrees=[1, 2]
           ,rowToPredict='last')

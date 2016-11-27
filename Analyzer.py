@@ -44,18 +44,22 @@ class Analyzer:
             print("Cross validating with %d entries" % length)
             # If there is any cross validation data
             if (length != 0):
-                bought = 0
-                sold = 0
+                bought5D = 0
+                sold5D = 0
                 avg5DErrorAbove = 0
                 above5DCount = 0
                 avg5DErrorBelow = 0
                 below5DCount = 0
 
+                bought10D = 0
+                sold10D = 0
                 avg10DErrorAbove = 0
                 above10DCount = 0
                 avg10DErrorBelow = 0
                 below10DCount = 0
 
+                bought50D = 0
+                sold50D = 0
                 avg50DErrorAbove = 0
                 above50DCount = 0
                 avg50DErrorBelow = 0
@@ -65,10 +69,21 @@ class Analyzer:
                     current = self.xVectors_cv[x][0]
                     guess = pipeline.predict(self.xVectors_cv[x])
                     actual = self.yVectors_cv[x]
-                    if(guess[0][0] > current * 1.02):
-                        bought += actual[0] - current
-                    if(guess[0][0] < current *.98):
-                        sold += current - actual[0]
+                    if(guess[0][0] > 1.02):
+                        bought5D += actual[0] - 1
+                    if(guess[0][0] < .98):
+                        sold5D += 1 - actual[0]
+
+                    if (guess[0][1] > 1.04):
+                        bought10D += actual[1] - 1
+                    if (guess[0][1] < .96):
+                        sold10D += 1 - actual[1]
+
+                    if (guess[0][2] > 1.06):
+                        bought50D += actual[2] - 1
+                    if (guess[0][2] < .94):
+                        sold50D += 1 - actual[2]
+
                     error = guess - actual
                     squaredE = error ** 2
                     avgSquaredE += squaredE
@@ -120,6 +135,7 @@ class Analyzer:
                 print("Avg Squared Error:")
                 print(avgSquaredE)
                 print("Avg Error:", avgError)
+                print("")
                 print("Avg Above Error for 5 days:", avg5DErrorAbove, 'with %d guesses above' % above5DCount)
                 print("Avg Below Error for 5 days:", avg5DErrorBelow, 'with %d guesses below' % below5DCount)
 
@@ -128,8 +144,15 @@ class Analyzer:
 
                 print("Avg Above Error for 50 days:", avg50DErrorAbove, 'with %d guesses above' % above50DCount)
                 print("Avg Below Error for 50 days:", avg50DErrorBelow, 'with %d guesses below' % below50DCount)
-                print("bought", bought)
-                print("sold", sold)
+                print("")
+                print("Gain\loss when prediction is above 2% for 5 days", bought5D)
+                print("Gain\loss when prediction is below 2% for 5 days", sold5D)
+
+                print("Gain\loss when prediction is above 4% for 10 days", bought10D)
+                print("Gain\loss when prediction is below 4% for 10 days", sold10D)
+
+                print("Gain\loss when prediction is above 6% for 50 days", bought50D)
+                print("Gain\loss when prediction is above 6% for 50 days", sold50D)
 
             if rowToPredict == 'last':
                 for csvFile in self.csvFiles:
