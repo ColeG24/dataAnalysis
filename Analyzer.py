@@ -4,7 +4,7 @@ import random
 import warnings
 
 import numpy as np
-import  pandas as p
+import pandas as p
 
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=DeprecationWarning)
@@ -12,9 +12,9 @@ with warnings.catch_warnings():
     from sklearn.preprocessing import PolynomialFeatures
     from sklearn.pipeline import Pipeline
 
-
 # Analyzes pre processed data, and can run linear/polynomial regression and gradient descent on the data
 class Analyzer:
+
 
     def make_model(self, degree):
         polynomial_features = PolynomialFeatures(degree=degree,
@@ -41,15 +41,26 @@ class Analyzer:
             avgSquaredE = 0.0
             avgError = 0.0
             length = len(self.yVectors_cv)
-
+            print("Cross validating with %d entries" % length)
             # If there is any cross validation data
             if (length != 0):
                 bought = 0
                 sold = 0
                 avg5DErrorAbove = 0
-                above5DCount = 0;
+                above5DCount = 0
                 avg5DErrorBelow = 0
                 below5DCount = 0
+
+                avg10DErrorAbove = 0
+                above10DCount = 0
+                avg10DErrorBelow = 0
+                below10DCount = 0
+
+                avg50DErrorAbove = 0
+                above50DCount = 0
+                avg50DErrorBelow = 0
+                below50DCount = 0
+
                 for x in range(0, length):
                     current = self.xVectors_cv[x][0]
                     guess = pipeline.predict(self.xVectors_cv[x])
@@ -62,6 +73,8 @@ class Analyzer:
                     squaredE = error ** 2
                     avgSquaredE += squaredE
                     avgError += abs(error)
+
+                    # See error above and below for 5 days
                     error5D = error[0][0]
                     if error5D > 0:
                         avg5DErrorAbove += error5D
@@ -70,19 +83,54 @@ class Analyzer:
                         avg5DErrorBelow += error5D
                         below5DCount += 1
 
+                    # See error above and below for 10 days
+                    error10D = error[0][1]
+                    if error10D > 0:
+                        avg10DErrorAbove += error10D
+                        above10DCount += 1
+                    else:
+                        avg10DErrorBelow += error10D
+                        below10DCount += 1
+
+                    # See error above and below for 50 days
+                    error50D = error[0][2]
+                    if error50D > 0:
+                        avg50DErrorAbove += error50D
+                        above50DCount += 1
+                    else:
+                        avg50DErrorBelow += error50D
+                        below50DCount += 1
+
+
                 avgSquaredE /= length
                 avgError /= length
                 if above5DCount > 0:
                     avg5DErrorAbove /= above5DCount
                 if below5DCount > 0:
-                    avg5DErrorAbove /= below5DCount
+                    avg5DErrorBelow /= below5DCount
+                if above10DCount > 0:
+                    avg10DErrorAbove /= above10DCount
+                if below10DCount > 0:
+                    avg10DErrorBelow /= below10DCount
+                if above50DCount > 0:
+                    avg50DErrorAbove /= above50DCount
+                if below50DCount > 0:
+                    avg50DErrorBelow /= below50DCount
+
                 print("Avg Squared Error:")
                 print(avgSquaredE)
                 print("Avg Error:", avgError)
-                print("Avg Above Error for 5 days:", avg5DErrorAbove)
-                print("Avg Below Error for 5 days:", avg5DErrorBelow)
+                print("Avg Above Error for 5 days:", avg5DErrorAbove, 'with %d guesses above' % above5DCount)
+                print("Avg Below Error for 5 days:", avg5DErrorBelow, 'with %d guesses below' % below5DCount)
+
+                print("Avg Above Error for 10 days:", avg10DErrorAbove, 'with %d guesses above' % above10DCount)
+                print("Avg Below Error for 10 days:", avg10DErrorBelow, 'with %d guesses below' % below10DCount)
+
+                print("Avg Above Error for 50 days:", avg50DErrorAbove, 'with %d guesses above' % above50DCount)
+                print("Avg Below Error for 50 days:", avg50DErrorBelow, 'with %d guesses below' % below50DCount)
                 print("bought", bought)
                 print("sold", sold)
+
             if rowToPredict == 'last':
                 for csvFile in self.csvFiles:
                     prediction = pipeline.predict(self.lastRows[csvFile])
@@ -200,9 +248,6 @@ class Analyzer:
         print("Prediction",prediction)
         # predictionMoney = prediction*self.lastRowMovAvg
         # print("Prediction as money",predictionMoney)
-
-
-
 
 
 if __name__ == "__main__":

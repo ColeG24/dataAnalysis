@@ -1,1 +1,1 @@
-from DataRead import GoogleStockReader
+from DataRead import StockReader

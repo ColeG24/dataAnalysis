@@ -5,12 +5,11 @@ import pandas as p
 import numpy as np
 
 
-from DataRead.GoogleStockReader import GoogleStockReader
+from DataRead.StockReader import StockReader
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore",category=DeprecationWarning)
 import datetime
 from dateutil import parser
-
 
 class PreProcessor:
 
@@ -80,11 +79,23 @@ class PreProcessor:
                     return True
             return False
 
-    def __init__(self, company, start=datetime.datetime(2014, 1, 1), end=datetime.date.today()):
+    def __init__(self, company, start=datetime.datetime(2014, 1, 1), end=datetime.date.today(), source='Google', local = False):
+        # if Local is set to true, will look in the local_csv folder for csv file of name. Will ignore start and end time, and
+        # Process all data
         self.start = start
         self.end = end
         self.company = company
-        data = p.read_csv(GoogleStockReader.getStockUrl(company, start, end), parse_dates=True, names=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
+        if local == False:
+            if source == 'Google':
+                url = StockReader.getStockUrlGoogle(company, start, end)
+            elif source == 'Yahoo':
+                url = StockReader.getStockUrlYahoo(company, start, end)
+            else:
+                raise ValueError("Invalid source")
+            data = p.read_csv(url, parse_dates=True, names=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
+        else:
+            csvFile = "local_csvs\\" + company + ".csv"
+            data = p.read_csv(csvFile, parse_dates=True, names=['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
 
         d = [x for x in data['Date'].values]
         o = [x for x in data['Open'].values]
@@ -141,13 +152,9 @@ class PreProcessor:
         s = p.Series(self.open, self.dates)
         s.cumsum()
 
-        movAvg5 = s.resample("1D").fillna('ffill').rolling(window=5,)
-        movAvg10 = s.resample("1D").fillna('ffill').rolling(window=10,)
-        movAvg20 = s.resample("1D").fillna('ffill').rolling(window=20,)
-        movAvg40 = s.resample("1D").fillna('ffill').rolling(window=40,)
+
         movAvg100 = s.resample("1D").fillna('ffill').rolling(window=100,)
-        movAvg160 = s.resample("1D").fillna('ffill').rolling(window=160,)
-        movAvg320 = s.resample("1D").fillna('ffill').rolling(window=320,)
+
 
         print(self.dataPoints[50].getRollingDataForDay(5))
         print(len(self.dates))
@@ -384,13 +391,18 @@ class PreProcessor:
         columns = ['open','percent300Avg', 'growth5', 'growth10', 'growth20','growth40','growth80','growth160','growth300',
                    'num', 'x3', 'x4', 'x5', 'slope5', 'slope10', 'slope20', 'slope40', 'slope80',
                    'slope160','movAvgDiff20','movAvgDiff40', 'movAvgDiff80','movAvgDiff160','var20','var40','var80','var160',
+                   'sp_slope5', 'sp_slope10', 'sp_slope20', 'sp_slope40', 'sp_slope80', 'sp_slope160','sp_movAvgDiff20','sp_movAvgDiff40',
+                   'sp_movAvgDiff80','sp_movAvgDiff160','sp_var20','sp_var40','sp_var80','sp_var160',
+                   'dow_slope5', 'dow_slope10', 'dow_slope20', 'dow_slope40', 'dow_slope80', 'dow_slope160',
+                   'dow_movAvgDiff20', 'dow_movAvgDiff40',
+                   'dow_movAvgDiff80', 'dow_movAvgDiff160', 'dow_var20', 'dow_var40', 'dow_var80', 'dow_var160',
                    '5DayActual','10DayActual','50DayActual','k']
         index = self.dates
         df = p.DataFrame(index=index, columns=columns)
 
         # TODO make yahoo stock reader.. Google has disapointed me, and does not offer csv's off indices
-        # dowData = PreProcessor("DOW", self.start, self.end)
-        # spData = PreProcessor("INDEXSP", self.start, self.end)
+        dowData = PreProcessor("DOW", self.start, self.end, source='Yahoo', local=True)
+        spData = PreProcessor("SP", self.start, self.end, source='Yahoo', local=True)
 
         # TODO add DOW && S&P index
         # TODO add PercentDiffBetweenMovAvg
@@ -469,6 +481,68 @@ class PreProcessor:
             if dayIndex + 50 < len(self.open):
                 df.at[db.date, '50DayActual'] = self.open[dayIndex + 50]/db.open
 
+        # TODO this should only be computed once... but I'm lazy
+        for dayIndex in range(300, len(spData.dataPoints)):
+            db = spData.dataPoints[dayIndex]
+            if (dayIndex >= 5):
+                df.at[db.date, 'sp_slope5'] = self.calculateSlope(5, db.getRollingData(5), db.date)
+            if (dayIndex >= 10):
+                 df.at[db.date, 'sp_slope10'] = self.calculateSlope(10, db.getRollingData(10), db.date)
+            if (dayIndex >= 20):
+                df.at[db.date, 'sp_slope20'] = self.calculateSlope(20, db.getRollingData(20), db.date)
+            if (dayIndex >= 40):
+                df.at[db.date, 'sp_slope40'] = self.calculateSlope(40, db.getRollingData(40), db.date)
+            if (dayIndex >= 80):
+                df.at[db.date, 'sp_slope80'] = self.calculateSlope(80, db.getRollingData(80), db.date)
+            if (dayIndex >= 160):
+                df.at[db.date, 'sp_slope160'] = self.calculateSlope(160, db.getRollingData(160), db.date)
+            if (dayIndex >= 20):
+                df.at[db.date, 'sp_movAvgDiff20'] = self.diff_from_moving_avg(db, 20)
+            if (dayIndex >= 40):
+                df.at[db.date, 'sp_movAvgDiff40'] = self.diff_from_moving_avg(db, 40)
+            if (dayIndex >= 80):
+                df.at[db.date, 'sp_movAvgDiff80'] = self.diff_from_moving_avg(db, 80)
+            if (dayIndex >= 160):
+                df.at[db.date, 'sp_movAvgDiff160'] = self.diff_from_moving_avg(db, 160)
+            if (dayIndex >= 20):
+                df.at[db.date, 'sp_var20'] = db.getRollingDataForDay(20,operation='var')
+            if (dayIndex >= 40):
+                df.at[db.date, 'sp_var40'] = db.getRollingDataForDay(40,operation='var')
+            if (dayIndex >= 80):
+                df.at[db.date, 'sp_var80'] = db.getRollingDataForDay(80,operation='var')
+            if (dayIndex >= 160):
+                df.at[db.date, 'sp_var160'] = db.getRollingDataForDay(160,operation='var')
+
+        for dayIndex in range(300, len(dowData.dataPoints)):
+            db = dowData.dataPoints[dayIndex]
+            if (dayIndex >= 5):
+                df.at[db.date, 'dow_slope5'] = self.calculateSlope(5, db.getRollingData(5), db.date)
+            if (dayIndex >= 10):
+                df.at[db.date, 'dow_slope10'] = self.calculateSlope(10, db.getRollingData(10), db.date)
+            if (dayIndex >= 20):
+                df.at[db.date, 'dow_slope20'] = self.calculateSlope(20, db.getRollingData(20), db.date)
+            if (dayIndex >= 40):
+                df.at[db.date, 'dow_slope40'] = self.calculateSlope(40, db.getRollingData(40), db.date)
+            if (dayIndex >= 80):
+                df.at[db.date, 'dow_slope80'] = self.calculateSlope(80, db.getRollingData(80), db.date)
+            if (dayIndex >= 160):
+                df.at[db.date, 'dow_slope160'] = self.calculateSlope(160, db.getRollingData(160), db.date)
+            if (dayIndex >= 20):
+                df.at[db.date, 'dow_movAvgDiff20'] = self.diff_from_moving_avg(db, 20)
+            if (dayIndex >= 40):
+                df.at[db.date, 'dow_movAvgDiff40'] = self.diff_from_moving_avg(db, 40)
+            if (dayIndex >= 80):
+                df.at[db.date, 'dow_movAvgDiff80'] = self.diff_from_moving_avg(db, 80)
+            if (dayIndex >= 160):
+                df.at[db.date, 'dow_movAvgDiff160'] = self.diff_from_moving_avg(db, 160)
+            if (dayIndex >= 20):
+                df.at[db.date, 'dow_var20'] = db.getRollingDataForDay(20, operation='var')
+            if (dayIndex >= 40):
+                df.at[db.date, 'dow_var40'] = db.getRollingDataForDay(40, operation='var')
+            if (dayIndex >= 80):
+                df.at[db.date, 'dow_var80'] = db.getRollingDataForDay(80, operation='var')
+            if (dayIndex >= 160):
+                df.at[db.date, 'dow_var160'] = db.getRollingDataForDay(160, operation='var')
 
             # if db.peaked(80, self.dataPoints):
             #     plt.plot(db.date, db.open, marker='o', linestyle='--', color='g', markersize=8)
@@ -501,6 +575,4 @@ class PreProcessor:
 
 
 if __name__ == "__main__":
-    A = PreProcessor("X", start=datetime.datetime(2011, 1, 1))
-    # A.bare_run()
-    A.csv_indices()
+    StockReader.getStockUrlWSJ("DIJA", start=datetime.date(2011,1,1), end=datetime.date.today())

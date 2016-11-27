@@ -34,12 +34,23 @@ if __name__ == "__main__":
     companies = []
     for line in file:
         companies.append(line.strip('\n'))
-    # MultiStockPreProcessor.PreProcessCompanies(companies)
+    # MultiStockPreProcessor.PreProcessCompanies(companies, start=datetime(2011,1,1))
     model = MultiStockPreProcessor.GetAnalyzerForCompanies(companies,
                                                            xColumns=['open','percent300Avg', 'growth5', 'growth10', 'growth20','growth40','growth80','growth160','growth300',
                    'num', 'x3', 'x4', 'x5', 'slope5', 'slope10', 'slope20', 'slope40', 'slope80',
-                   'slope160','movAvgDiff20','movAvgDiff40', 'movAvgDiff80','movAvgDiff160','var20','var40','var80','var160'],
-                                                           yColumns=['5DayActual','10DayActual','50DayActual'], valColumn='open', cvPercent=0, cvSelection='top')
+                   'slope160','movAvgDiff20','movAvgDiff40', 'movAvgDiff80','movAvgDiff160','var20','var40','var80','var160',
+                                                                     'sp_slope5', 'sp_slope10', 'sp_slope20',
+                                                                     'sp_slope40', 'sp_slope80', 'sp_slope160',
+                                                                     'sp_movAvgDiff20', 'sp_movAvgDiff40',
+                                                                     'sp_movAvgDiff80', 'sp_movAvgDiff160', 'sp_var20',
+                                                                     'sp_var40', 'sp_var80', 'sp_var160',
+                                                                     'dow_slope5', 'dow_slope10', 'dow_slope20',
+                                                                     'dow_slope40', 'dow_slope80', 'dow_slope160',
+                                                                     'dow_movAvgDiff20', 'dow_movAvgDiff40',
+                                                                     'dow_movAvgDiff80', 'dow_movAvgDiff160',
+                                                                     'dow_var20', 'dow_var40', 'dow_var80',
+                                                                     'dow_var160'],
+                                                           yColumns=['5DayActual','10DayActual','50DayActual'], valColumn='open', cvPercent=.05, cvSelection='top')
 
     model.run(degrees=[1, 2]
           ,rowToPredict='last')
